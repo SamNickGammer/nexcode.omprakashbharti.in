@@ -9,8 +9,8 @@
     "pnpm": ">=11"
   },
   "scripts": {
-    "dev": "pnpm -F desktop tauri dev",
-    "build": "pnpm -F desktop tauri build",
+    "dev": "pnpm -F @nexcode/desktop tauri dev",
+    "build": "pnpm -F @nexcode/desktop tauri build",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "format": "prettier --write .",
