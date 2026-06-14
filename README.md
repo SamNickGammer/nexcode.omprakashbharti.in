@@ -15,7 +15,7 @@ _an intelligent terminal, and an AI layer **you** control with your own keys._
 [![Rust](https://img.shields.io/badge/Rust-stable-000000?logo=rust&logoColor=white)](https://www.rust-lang.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
-[![Status](https://img.shields.io/badge/status-foundation%20bootstrap-orange)](#roadmap)
+[![Status](https://img.shields.io/badge/status-phase%201%20in%20progress-orange)](#roadmap)
 
 </div>
 
@@ -30,13 +30,13 @@ shell and adds the things developers actually keep asking for.
 > **Core principle:** every feature works with **zero API keys and zero internet**.
 > AI is a progressive enhancement, never a requirement.
 
-| Pain in VSCode | How NexCode solves it |
-| --- | --- |
-| Electron — high RAM, slow startup | **Tauri (Rust + system WebView)** — ~50 MB install, <1.5 s cold start, ~120 MB idle |
-| Real-time collab needs proprietary tools | **Yjs CRDT multiplayer** built in, self-hostable sync server, LAN auto-discovery |
-| Merge-conflict UX is painful | **3-panel IntelliJ-style resolver** — hunk-by-hunk accept/reject |
-| AI tools quietly ship your code to third parties | **BYOK** — your own keys, token dashboard, privacy mode, direct-to-provider calls |
-| The terminal has no memory or intelligence | **Persistent sessions** + natural-language-to-command with a local cache |
+| Pain in VSCode                                   | How NexCode solves it                                                               |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| Electron — high RAM, slow startup                | **Tauri (Rust + system WebView)** — ~50 MB install, <1.5 s cold start, ~120 MB idle |
+| Real-time collab needs proprietary tools         | **Yjs CRDT multiplayer** built in, self-hostable sync server, LAN auto-discovery    |
+| Merge-conflict UX is painful                     | **3-panel IntelliJ-style resolver** — hunk-by-hunk accept/reject                    |
+| AI tools quietly ship your code to third parties | **BYOK** — your own keys, token dashboard, privacy mode, direct-to-provider calls   |
+| The terminal has no memory or intelligence       | **Persistent sessions** + natural-language-to-command with a local cache            |
 
 ---
 
@@ -47,12 +47,14 @@ shell and adds the things developers actually keep asking for.
 <td width="50%" valign="top">
 
 **⚡ Editor core**
+
 - Monaco engine — 100+ languages, IntelliSense, multi-cursor
 - Split panes, zen mode, sticky scroll, minimap
 - Full LSP client (TS, Python, Rust, Go bundled)
 - VSCode-compatible `settings.json` / `keybindings.json`
 
 **🔀 Flagship merge resolver**
+
 - 3-panel layout: yours · result · theirs
 - Hunk navigator, conflict counter, inline commit
 - Optional AI suggestion for the likely-correct merge
@@ -61,16 +63,19 @@ shell and adds the things developers actually keep asking for.
 <td width="50%" valign="top">
 
 **👥 Real-time multiplayer**
+
 - Google-Docs-style co-editing (Yjs CRDT)
 - Cursor presence, awareness, view-only/edit roles
 - LAN (Bonjour/mDNS) or self-hosted sync server
 
 **🧠 Smart terminal**
+
 - Full PTY (zsh/bash/fish), session restore via SQLite
 - `>> run this app` → shell command, cached locally
 - Pay for each unique intent **once**
 
 **🤖 AI layer — Bring Your Own Key**
+
 - Chat, code review, commit messages, test generation
 - OpenAI · Anthropic · Gemini · Groq · Ollama (offline)
 - Keys in macOS Keychain · token dashboard · privacy mode
@@ -83,16 +88,16 @@ shell and adds the things developers actually keep asking for.
 
 ## 🏗️ Tech stack
 
-| Layer | Technology |
-| --- | --- |
-| Desktop shell | **Tauri 2.0** (Rust) — native perf, system WebView |
-| Editor core | **Monaco** (the engine behind VSCode) |
-| Frontend | **React 19 + TypeScript + Vite** |
-| Real-time sync | **Yjs (CRDT)** + y-websocket |
-| Terminal | **xterm.js** + node-pty |
-| Storage | **SQLite** (sessions, NL cache), macOS **Keychain** (API keys) |
-| Git | **isomorphic-git** + libgit2 |
-| AI | Custom **BYOK** router (OpenAI / Anthropic / Gemini / Groq / Ollama) |
+| Layer          | Technology                                                           |
+| -------------- | -------------------------------------------------------------------- |
+| Desktop shell  | **Tauri 2.0** (Rust) — native perf, system WebView                   |
+| Editor core    | **Monaco** (the engine behind VSCode)                                |
+| Frontend       | **React 19 + TypeScript + Vite**                                     |
+| Real-time sync | **Yjs (CRDT)** + y-websocket                                         |
+| Terminal       | **xterm.js** + node-pty                                              |
+| Storage        | **SQLite** (sessions, NL cache), macOS **Keychain** (API keys)       |
+| Git            | **isomorphic-git** + libgit2                                         |
+| AI             | Custom **BYOK** router (OpenAI / Anthropic / Gemini / Groq / Ollama) |
 
 ---
 
@@ -148,17 +153,17 @@ See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the full developer guide.
 
 The [PRD](docs/PRD/) defines a 4-phase, 30-week plan:
 
-| Phase | Focus | Status |
-| --- | --- | --- |
-| **0 · Foundation bootstrap** | Monorepo, Tauri+Monaco shell, app icon, module scaffold | ✅ **done** |
-| **1 · Foundation** | File tree, Cmd+P, LSP, terminal, git client | 🔜 next |
-| **2 · Unique features** | Multiplayer, merge resolver, smart terminal, PR review | ⬜ planned |
-| **3 · AI layer** | BYOK router, chat, reviewer, test-gen, token dashboard | ⬜ planned |
-| **4 · Polish & launch** | `.vsix` compat, perf, notarization, Homebrew Cask | ⬜ planned |
+| Phase                        | Focus                                                   | Status             |
+| ---------------------------- | ------------------------------------------------------- | ------------------ |
+| **0 · Foundation bootstrap** | Monorepo, Tauri+Monaco shell, app icon, module scaffold | ✅ **done**        |
+| **1 · Foundation**           | File tree, Cmd+P, tabs/open/save → LSP, terminal, git   | 🚧 **in progress** |
+| **2 · Unique features**      | Multiplayer, merge resolver, smart terminal, PR review  | ⬜ planned         |
+| **3 · AI layer**             | BYOK router, chat, reviewer, test-gen, token dashboard  | ⬜ planned         |
+| **4 · Polish & launch**      | `.vsix` compat, perf, notarization, Homebrew Cask       | ⬜ planned         |
 
-> **You are here:** Foundation bootstrap — the Tauri + React + Vite shell builds and runs,
-> with Monaco mounted in the native window and all PRD modules stubbed under
-> `apps/desktop/src/`.
+> **You are here:** Phase 1 — open a folder, browse the **file explorer**, fuzzy-jump to
+> files with **⌘P**, edit across **tabs**, and **⌘S** to save. Next up: LSP client,
+> integrated terminal, and the git panel.
 
 ---
 

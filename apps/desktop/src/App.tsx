@@ -1,4 +1,6 @@
 import { Editor } from "@/editor";
+import { FileExplorer, QuickOpen, TabBar } from "@/workspace";
+import { StatusBar } from "@/components/StatusBar";
 import "./App.css";
 
 function App() {
@@ -6,15 +8,21 @@ function App() {
     <div className="app-shell">
       <header className="app-titlebar">
         <span className="app-brand">NexCode</span>
-        <span className="app-subtitle">Foundation build</span>
+        <span className="app-subtitle">Phase 1</span>
       </header>
-      <main className="app-editor">
-        <Editor language="typescript" />
-      </main>
-      <footer className="app-statusbar">
-        <span>Ready</span>
-        <span className="app-statusbar-right">UTF-8 · LF · TypeScript</span>
-      </footer>
+
+      <div className="app-body">
+        <FileExplorer />
+        <main className="app-main">
+          <TabBar />
+          <div className="app-editor">
+            <Editor />
+          </div>
+        </main>
+      </div>
+
+      <StatusBar />
+      <QuickOpen />
     </div>
   );
 }

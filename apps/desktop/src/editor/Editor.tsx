@@ -1,69 +1,66 @@
 // Monaco editor mount — the core editing surface (PRD §4.1).
 //
-// For the bootstrap milestone this loads a single file's contents through the
-// Rust `read_file` command to prove the full stack end-to-end. Multi-file
-// tabs, LSP, multi-cursor, split panes, etc. are layered on in Phase 1.
+// Driven by the workspace store: it renders the active tab's buffer, propagates
+// edits back to the store (which tracks dirty state), and saves on Cmd+S.
 
-import { useEffect, useState } from "react";
-import MonacoEditor from "@monaco-editor/react";
-import { readFile } from "@/lib/tauri";
+import { useRef } from "react";
+import MonacoEditor, { type OnMount } from "@monaco-editor/react";
+import type { editor } from "monaco-editor";
+import { useWorkspace } from "@/workspace/store";
 
-interface EditorProps {
-  /** Absolute path of the file to load, or null for an empty buffer. */
-  filePath?: string | null;
-  /** Monaco language id (e.g. "typescript", "markdown"). */
-  language?: string;
-}
-
-const WELCOME = `// NexCode IDE — bootstrap build
+const WELCOME = `//  Welcome to NexCode
 //
-// The editor is live. Open a file to start editing.
-// Foundation milestone: React + Vite + Tauri IPC + Rust + filesystem all wired.
+//  • Open a folder from the sidebar (or ⌘O via "Open…")
+//  • Jump to any file with ⌘P
+//  • Edit and save with ⌘S
+//
+//  Every feature works offline — no API keys required.
 `;
 
-export function Editor({ filePath = null, language = "typescript" }: EditorProps) {
-  const [value, setValue] = useState<string>(WELCOME);
-  const [error, setError] = useState<string | null>(null);
+export function Editor() {
+  const activePath = useWorkspace((s) => s.activePath);
+  const tab = useWorkspace((s) => s.tabs.find((t) => t.path === s.activePath) ?? null);
+  const updateContent = useWorkspace((s) => s.updateContent);
+  const saveActive = useWorkspace((s) => s.saveActive);
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
-  useEffect(() => {
-    if (!filePath) return;
-    let cancelled = false;
-    readFile(filePath)
-      .then((text) => {
-        if (!cancelled) {
-          setValue(text);
-          setError(null);
-        }
-      })
-      .catch((e: unknown) => {
-        if (!cancelled) setError(String(e));
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [filePath]);
+  const onMount: OnMount = (instance, monaco) => {
+    editorRef.current = instance;
+    // ⌘S / Ctrl+S saves the active tab.
+    instance.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+      void saveActive();
+    });
+  };
 
-  if (error) {
+  if (!tab) {
     return (
-      <div className="editor-error">
-        Failed to open {filePath}: {error}
-      </div>
+      <MonacoEditor
+        height="100%"
+        theme="vs-dark"
+        language="javascript"
+        value={WELCOME}
+        options={{ readOnly: true, minimap: { enabled: false }, fontSize: 13, lineNumbers: "off" }}
+      />
     );
   }
 
   return (
     <MonacoEditor
+      key={activePath}
       height="100%"
       theme="vs-dark"
-      language={language}
-      value={value}
-      onChange={(v) => setValue(v ?? "")}
+      path={tab.path}
+      language={tab.language}
+      value={tab.content}
+      onMount={onMount}
+      onChange={(v) => updateContent(tab.path, v ?? "")}
       options={{
         fontSize: 13,
         minimap: { enabled: true },
         stickyScroll: { enabled: true },
         smoothScrolling: true,
         automaticLayout: true,
+        scrollBeyondLastLine: false,
       }}
     />
   );
