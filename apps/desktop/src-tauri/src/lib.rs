@@ -5,6 +5,7 @@
 // `src/lib/tauri.ts` wrappers (see PRD §3.2 process architecture).
 
 mod fs_commands;
+mod git_commands;
 mod terminal;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -22,6 +23,11 @@ pub fn run() {
             terminal::terminal_write,
             terminal::terminal_resize,
             terminal::terminal_close,
+            git_commands::git_status,
+            git_commands::git_diff_file,
+            git_commands::git_stage,
+            git_commands::git_unstage,
+            git_commands::git_commit,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

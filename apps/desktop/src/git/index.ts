@@ -1,6 +1,5 @@
-// Git module — isomorphic-git (reads) + libgit2 (heavy ops) wrapper, diff UI,
-// source control panel, and inline PR review (GitHub/GitLab) (PRD §4.4, §6).
-//
-// TODO (Phase 1/2): status panel, hunk staging, commit/push, PR review.
-
-export const GIT_MODULE = "git" as const;
+// Git module — source-control panel, diff viewer, and shared store (PRD §4.4).
+// Branches, fetch/pull/push, stash, tags, and inline PR review come later.
+export { GitPanel } from "./GitPanel";
+export { DiffViewer } from "./DiffViewer";
+export { useGit } from "./store";

@@ -74,3 +74,43 @@ export function terminalResize(id: string, cols: number, rows: number): Promise<
 export function terminalClose(id: string): Promise<void> {
   return invoke<void>("terminal_close", { id });
 }
+
+// --- Git source control (PRD §4.4) ---
+
+export interface GitFile {
+  path: string;
+  /** Single letter: M, A, D, R, T, or ? (untracked). */
+  status: string;
+}
+
+export interface GitStatusResult {
+  isRepo: boolean;
+  branch: string | null;
+  staged: GitFile[];
+  unstaged: GitFile[];
+}
+
+/** Status of the repo containing `repoPath` (isRepo:false if not a repo). */
+export function gitStatus(repoPath: string): Promise<GitStatusResult> {
+  return invoke<GitStatusResult>("git_status", { repoPath });
+}
+
+/** Unified diff for one file (staged = HEAD→index, else index→workdir). */
+export function gitDiffFile(repoPath: string, path: string, staged: boolean): Promise<string> {
+  return invoke<string>("git_diff_file", { repoPath, path, staged });
+}
+
+/** Stage the given (repo-relative) paths. */
+export function gitStage(repoPath: string, paths: string[]): Promise<void> {
+  return invoke<void>("git_stage", { repoPath, paths });
+}
+
+/** Unstage the given (repo-relative) paths. */
+export function gitUnstage(repoPath: string, paths: string[]): Promise<void> {
+  return invoke<void>("git_unstage", { repoPath, paths });
+}
+
+/** Commit the staged index; resolves to the new commit OID. */
+export function gitCommit(repoPath: string, message: string): Promise<string> {
+  return invoke<string>("git_commit", { repoPath, message });
+}
