@@ -1,0 +1,22 @@
+{
+  "name": "nexcode",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NexCode IDE — a lightweight, AI-optional, multiplayer macOS IDE built on Tauri 2.0 + Monaco",
+  "packageManager": "pnpm@11.6.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=11"
+  },
+  "scripts": {
+    "dev": "pnpm -F desktop tauri dev",
+    "build": "pnpm -F desktop tauri build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2"
+  }
+}

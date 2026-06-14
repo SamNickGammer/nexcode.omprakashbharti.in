@@ -1,0 +1,78 @@
+:root {
+  --nc-bg: #1e1e1e;
+  --nc-titlebar: #252526;
+  --nc-statusbar: #1b3a5c;
+  --nc-border: #333333;
+  --nc-text: #d4d4d4;
+  --nc-accent: #4aa8ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  background: var(--nc-bg);
+  color: var(--nc-text);
+  overflow: hidden;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-titlebar {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.4rem 1rem;
+  background: var(--nc-titlebar);
+  border-bottom: 1px solid var(--nc-border);
+  user-select: none;
+}
+
+.app-brand {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: linear-gradient(90deg, #7c5cff, #4aa8ff, #34e1d5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.app-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.app-editor {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.app-statusbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem 1rem;
+  font-size: 0.75rem;
+  background: var(--nc-statusbar);
+  color: #ffffff;
+  user-select: none;
+}
+
+.editor-error {
+  padding: 1rem;
+  color: #f48771;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}

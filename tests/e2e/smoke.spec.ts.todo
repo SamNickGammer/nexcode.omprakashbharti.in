@@ -1,0 +1,11 @@
+// Playwright UI smoke test (scaffold — rename to smoke.spec.ts once Playwright
+// is installed; see ../README.md).
+//
+// import { test, expect } from "@playwright/test";
+//
+// test("editor shell renders", async ({ page }) => {
+//   await page.goto("http://localhost:1420");
+//   await expect(page.getByText("NexCode")).toBeVisible();
+// });
+//
+// TODO: add tauri-driver based native-window e2e.
