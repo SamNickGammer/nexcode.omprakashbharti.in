@@ -153,18 +153,19 @@ See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the full developer guide.
 
 The [PRD](docs/PRD/) defines a 4-phase, 30-week plan:
 
-| Phase                        | Focus                                                   | Status             |
-| ---------------------------- | ------------------------------------------------------- | ------------------ |
-| **0 · Foundation bootstrap** | Monorepo, Tauri+Monaco shell, app icon, module scaffold | ✅ **done**        |
-| **1 · Foundation**           | File tree, Cmd+P, tabs/save, terminal, git ✓ → LSP      | 🚧 **in progress** |
-| **2 · Unique features**      | Multiplayer, merge resolver, smart terminal, PR review  | ⬜ planned         |
-| **3 · AI layer**             | BYOK router, chat, reviewer, test-gen, token dashboard  | ⬜ planned         |
-| **4 · Polish & launch**      | `.vsix` compat, perf, notarization, Homebrew Cask       | ⬜ planned         |
+| Phase                        | Focus                                                        | Status             |
+| ---------------------------- | ------------------------------------------------------------ | ------------------ |
+| **0 · Foundation bootstrap** | Monorepo, Tauri+Monaco shell, app icon, module scaffold      | ✅ **done**        |
+| **1 · Foundation**           | File tree, Cmd+P, tabs/save, terminal, git, LSP ✓ → settings | 🚧 **in progress** |
+| **2 · Unique features**      | Multiplayer, merge resolver, smart terminal, PR review       | ⬜ planned         |
+| **3 · AI layer**             | BYOK router, chat, reviewer, test-gen, token dashboard       | ⬜ planned         |
+| **4 · Polish & launch**      | `.vsix` compat, perf, notarization, Homebrew Cask            | ⬜ planned         |
 
 > **You are here:** Phase 1 — open a folder, browse the **file explorer**, fuzzy-jump to
 > files with **⌘P**, edit across **tabs**, **⌘S** to save, drop into a real **integrated
-> terminal** with <kbd>Ctrl</kbd>+<kbd>`</kbd>, and stage/diff/**commit** from the
-> **source-control panel**. Next up: the LSP client.
+> terminal** with <kbd>Ctrl</kbd>+<kbd>`</kbd>, stage/diff/**commit** from the
+> **source-control panel**, and get **LSP** diagnostics, completion & hover (TypeScript
+> bundled; Python/Rust/Go when their server is on PATH). Next up: the settings UI.
 
 ---
 

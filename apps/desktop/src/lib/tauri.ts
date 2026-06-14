@@ -114,3 +114,26 @@ export function gitUnstage(repoPath: string, paths: string[]): Promise<void> {
 export function gitCommit(repoPath: string, message: string): Promise<string> {
   return invoke<string>("git_commit", { repoPath, message });
 }
+
+// --- Language servers (PRD §4.3) ---
+
+/** Payload of an `lsp://message` event: one JSON-RPC body from a server. */
+export interface LspMessageEvent {
+  id: string;
+  body: string;
+}
+
+/** Start a language server; resolves to its session id (rejects if missing). */
+export function lspStart(command: string, args: string[], root: string | null): Promise<string> {
+  return invoke<string>("lsp_start", { command, args, root });
+}
+
+/** Send a raw JSON-RPC message to a server (the backend adds LSP framing). */
+export function lspSend(id: string, message: string): Promise<void> {
+  return invoke<void>("lsp_send", { id, message });
+}
+
+/** Stop a language server. */
+export function lspStop(id: string): Promise<void> {
+  return invoke<void>("lsp_stop", { id });
+}
