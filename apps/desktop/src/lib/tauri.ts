@@ -46,3 +46,31 @@ export async function pickFolder(): Promise<string | null> {
   const selected = await open({ directory: true, multiple: false });
   return typeof selected === "string" ? selected : null;
 }
+
+// --- Integrated terminal (PRD §7) ---
+
+/** Payload of a `terminal://data` event: raw PTY output bytes for a session. */
+export interface TerminalDataEvent {
+  id: string;
+  data: number[];
+}
+
+/** Spawn a PTY-backed shell; resolves to the session id. */
+export function terminalCreate(cwd: string | null, cols: number, rows: number): Promise<string> {
+  return invoke<string>("terminal_create", { cwd, cols, rows });
+}
+
+/** Send keyboard input to a terminal session. */
+export function terminalWrite(id: string, data: string): Promise<void> {
+  return invoke<void>("terminal_write", { id, data });
+}
+
+/** Resize a terminal session's PTY. */
+export function terminalResize(id: string, cols: number, rows: number): Promise<void> {
+  return invoke<void>("terminal_resize", { id, cols, rows });
+}
+
+/** Kill and clean up a terminal session. */
+export function terminalClose(id: string): Promise<void> {
+  return invoke<void>("terminal_close", { id });
+}

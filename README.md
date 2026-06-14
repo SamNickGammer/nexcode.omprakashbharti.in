@@ -156,14 +156,15 @@ The [PRD](docs/PRD/) defines a 4-phase, 30-week plan:
 | Phase                        | Focus                                                   | Status             |
 | ---------------------------- | ------------------------------------------------------- | ------------------ |
 | **0 · Foundation bootstrap** | Monorepo, Tauri+Monaco shell, app icon, module scaffold | ✅ **done**        |
-| **1 · Foundation**           | File tree, Cmd+P, tabs/open/save → LSP, terminal, git   | 🚧 **in progress** |
+| **1 · Foundation**           | File tree, Cmd+P, tabs/save, terminal ✓ → LSP, git      | 🚧 **in progress** |
 | **2 · Unique features**      | Multiplayer, merge resolver, smart terminal, PR review  | ⬜ planned         |
 | **3 · AI layer**             | BYOK router, chat, reviewer, test-gen, token dashboard  | ⬜ planned         |
 | **4 · Polish & launch**      | `.vsix` compat, perf, notarization, Homebrew Cask       | ⬜ planned         |
 
 > **You are here:** Phase 1 — open a folder, browse the **file explorer**, fuzzy-jump to
-> files with **⌘P**, edit across **tabs**, and **⌘S** to save. Next up: LSP client,
-> integrated terminal, and the git panel.
+> files with **⌘P**, edit across **tabs**, **⌘S** to save, and drop into a real
+> **integrated terminal** with <kbd>Ctrl</kbd>+<kbd>`</kbd>. Next up: LSP client and the
+> git panel.
 
 ---
 

@@ -310,3 +310,101 @@ body {
   color: #f48771;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
 }
+
+/* Terminal panel */
+.terminal-panel {
+  flex: 0 0 auto;
+  height: 30vh;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--nc-border);
+  background: var(--nc-bg);
+}
+
+.terminal-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  background: var(--nc-titlebar);
+  border-bottom: 1px solid var(--nc-border);
+  user-select: none;
+}
+
+.terminal-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--nc-muted);
+}
+
+.terminal-tablist {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1 1 auto;
+  overflow-x: auto;
+}
+
+.terminal-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.76rem;
+  border-radius: 4px;
+  color: var(--nc-muted);
+  cursor: pointer;
+}
+
+.terminal-tab.is-active {
+  background: var(--nc-bg);
+  color: var(--nc-text);
+}
+
+.terminal-tab-close {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  line-height: 1;
+  font-size: 0.85rem;
+  padding: 0 0.1rem;
+}
+
+.terminal-actions {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.terminal-action {
+  background: none;
+  border: none;
+  color: var(--nc-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 4px;
+}
+
+.terminal-action:hover {
+  background: var(--nc-hover);
+  color: var(--nc-text);
+}
+
+.terminal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+}
+
+.terminal-slot {
+  position: absolute;
+  inset: 0;
+  padding: 0.3rem 0.5rem;
+}
+
+.terminal-view {
+  width: 100%;
+  height: 100%;
+}

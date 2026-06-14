@@ -1,6 +1,5 @@
-// Terminal module — xterm.js + node-pty bridge, session persistence (SQLite),
-// natural-language-to-command with smart cache (PRD §7).
-//
-// TODO (Phase 2): full PTY terminal, session restore, NL terminal.
-
-export const TERMINAL_MODULE = "terminal" as const;
+// Terminal module — xterm.js panel bridged to PTY-backed shell sessions
+// (PRD §7.1). Session persistence and the natural-language terminal (§7.2–7.3)
+// build on top of this in Phase 2.
+export { TerminalPanel } from "./TerminalPanel";
+export { useTerminal } from "./store";
