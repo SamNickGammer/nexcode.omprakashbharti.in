@@ -8,8 +8,7 @@ import { registerExtension } from "@codingame/monaco-vscode-api/extensions";
 import { commonServices, constructOptions, envOptions } from "./services";
 
 const container = document.createElement("div");
-container.style.height = "100vh";
-container.style.width = "100vw";
+container.id = "nexcode-workbench";
 document.body.replaceChildren(container);
 
 await initializeMonacoService(
