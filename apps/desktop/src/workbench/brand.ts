@@ -133,18 +133,23 @@ function mountStartScreen(): void {
         padding: 6px 11px; border-radius: 8px; display: inline-flex; gap: 8px; align-items: center;
       }
       #nexcode-splash .chip b { color: #ffffff; font-weight: 600; }
+      #nexcode-splash .row {
+        margin-top: 38px; display: flex; gap: 12px; align-items: stretch; justify-content: center;
+      }
+      #nexcode-splash .enter,
+      #nexcode-splash .ghost {
+        box-sizing: border-box; height: 46px; display: inline-flex; align-items: center;
+        justify-content: center; padding: 0 24px; border-radius: 10px; cursor: pointer;
+        font-size: 14px; transition: filter .15s ease, transform .1s ease, border-color .15s ease, color .15s ease;
+      }
       #nexcode-splash .enter {
-        margin-top: 38px; cursor: pointer; border: none; border-radius: 10px;
-        padding: 12px 28px; font-size: 14px; font-weight: 700; color: #050714;
-        background: ${GRADIENT};
-        box-shadow: 0 6px 26px #4aa8ff44; transition: filter .15s ease, transform .1s ease;
+        border: none; font-weight: 700; color: #050714;
+        background: ${GRADIENT}; box-shadow: 0 6px 26px #4aa8ff44;
       }
       #nexcode-splash .enter:hover { filter: brightness(1.1); }
       #nexcode-splash .enter:active { transform: translateY(1px); }
-      #nexcode-splash .row { margin-top: 38px; display: flex; gap: 12px; align-items: center; }
       #nexcode-splash .ghost {
-        cursor: pointer; border: 1px solid #2a2e48; border-radius: 10px; background: transparent;
-        padding: 12px 22px; font-size: 14px; font-weight: 600; color: #bdc2da;
+        border: 1px solid #2a2e48; background: transparent; font-weight: 600; color: #bdc2da;
       }
       #nexcode-splash .ghost:hover { border-color: #4aa8ff; color: #fff; }
       #nexcode-splash .folder { margin-top: 16px; color: #6a708a; font-size: 12px; }
