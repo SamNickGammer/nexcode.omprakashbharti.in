@@ -1,7 +1,7 @@
 // Default user settings & keybindings applied before the workbench boots.
 
 export const DEFAULT_CONFIGURATION = JSON.stringify({
-  "workbench.colorTheme": "NexCode Carbon",
+  "workbench.colorTheme": "NexCode Nova",
   "workbench.iconTheme": "vs-seti",
   "workbench.startupEditor": "none",
   "editor.fontFamily": "'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace",
