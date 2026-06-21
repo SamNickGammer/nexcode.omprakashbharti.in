@@ -28,4 +28,5 @@ portable-pty = "0.8"
 # libgit2 bindings; network features (ssh/https → openssl) disabled for this
 # slice — we only do local status/diff/stage/commit. Re-enable for push/pull.
 git2 = { version = "0.19", default-features = false }
+base64 = "0.22"
 

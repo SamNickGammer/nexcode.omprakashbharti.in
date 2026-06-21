@@ -4,100 +4,88 @@
 
 ### A lightweight, AI-optional, multiplayer IDE for macOS
 
-_The full power of VSCode — faster, leaner, with first-class real-time collaboration,_
-_an intelligent terminal, and an AI layer **you** control with your own keys._
+_The real VSCode — re-skinned, re-thought, and running Electron-free in a native Tauri shell._
 
 <br/>
 
 [![Platform](https://img.shields.io/badge/platform-macOS%2013%2B-000000?logo=apple&logoColor=white)](#)
 [![Tauri](https://img.shields.io/badge/Tauri-2.0-24C8DB?logo=tauri&logoColor=white)](https://tauri.app)
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![VSCode](https://img.shields.io/badge/VSCode-workbench-007ACC?logo=visualstudiocode&logoColor=white)](https://github.com/microsoft/vscode)
 [![Rust](https://img.shields.io/badge/Rust-stable-000000?logo=rust&logoColor=white)](https://www.rust-lang.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
-[![Status](https://img.shields.io/badge/status-phase%201%20in%20progress-orange)](#roadmap)
+[![Status](https://img.shields.io/badge/status-alpha-orange)](#roadmap)
 
 </div>
 
 ---
 
-## ✨ Why NexCode?
+## ✨ What is NexCode?
 
-VSCode is great — until Electron eats your RAM, LiveShare drops mid-session, and a merge
-conflict turns into a guessing game. NexCode rebuilds the experience on a native, Rust-powered
-shell and adds the things developers actually keep asking for.
+NexCode runs the **real VSCode workbench** — the genuine activity bar, explorer, editor, command
+palette, settings, themes, and OpenVSX extensions — inside a **lightweight Tauri shell** instead of
+Electron. You get all of VSCode's power and muscle memory, wrapped in NexCode's own vibrant design,
+with a Rust backend doing the heavy lifting.
+
+It's the "Android-based custom OS" approach, applied to a code editor: keep everything great about
+the base, layer your own identity and features on top.
 
 > **Core principle:** every feature works with **zero API keys and zero internet**.
 > AI is a progressive enhancement, never a requirement.
 
-| Pain in VSCode                                   | How NexCode solves it                                                               |
-| ------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| Electron — high RAM, slow startup                | **Tauri (Rust + system WebView)** — ~50 MB install, <1.5 s cold start, ~120 MB idle |
-| Real-time collab needs proprietary tools         | **Yjs CRDT multiplayer** built in, self-hostable sync server, LAN auto-discovery    |
-| Merge-conflict UX is painful                     | **3-panel IntelliJ-style resolver** — hunk-by-hunk accept/reject                    |
-| AI tools quietly ship your code to third parties | **BYOK** — your own keys, token dashboard, privacy mode, direct-to-provider calls   |
-| The terminal has no memory or intelligence       | **Persistent sessions** + natural-language-to-command with a local cache            |
+| Pain in stock VSCode                             | How NexCode answers it                                                            |
+| ------------------------------------------------ | --------------------------------------------------------------------------------- |
+| Electron — high RAM, slow startup                | **Tauri (Rust + system WebView)** — no Electron, far smaller footprint            |
+| Looks identical to everyone else's editor        | **NexCode Nova** vibrant theme, branded shell + start screen, Material icons      |
+| Real-time collab needs proprietary tools         | **Yjs CRDT multiplayer** (planned) — self-hostable, LAN auto-discovery            |
+| AI tools quietly ship your code to third parties | **BYOK** — your own keys, token dashboard, privacy mode, direct-to-provider calls |
+| The terminal has no memory or intelligence       | **PTY + session restore** and natural-language-to-command with a local cache      |
 
 ---
 
-## 🚀 Features
+## 🚀 Status — what works today
 
-<table>
-<tr>
-<td width="50%" valign="top">
+NexCode is in **alpha**. Working right now (branch [`feat/vscode-workbench`](#)):
 
-**⚡ Editor core**
+- ✅ **The real VSCode workbench** in a Tauri window — command palette (⌘⇧P), quick open (⌘P),
+  settings, keybindings, multi-pane editor, IntelliSense, OpenVSX extension gallery
+- ✅ **Open real folders** (⌘O) — your actual project tree, edit/save/create/delete/rename on disk
+  via the Rust filesystem bridge
+- ✅ **NexCode identity** — Nova vibrant theme, branded title-bar mark + start screen,
+  **Material icon theme**
+- ✅ Native window chrome (custom title bar, traffic-light inset, drag region)
 
-- Monaco engine — 100+ languages, IntelliSense, multi-cursor
-- Split panes, zen mode, sticky scroll, minimap
-- Full LSP client (TS, Python, Rust, Go bundled)
-- VSCode-compatible `settings.json` / `keybindings.json`
-
-**🔀 Flagship merge resolver**
-
-- 3-panel layout: yours · result · theirs
-- Hunk navigator, conflict counter, inline commit
-- Optional AI suggestion for the likely-correct merge
-
-</td>
-<td width="50%" valign="top">
-
-**👥 Real-time multiplayer**
-
-- Google-Docs-style co-editing (Yjs CRDT)
-- Cursor presence, awareness, view-only/edit roles
-- LAN (Bonjour/mDNS) or self-hosted sync server
-
-**🧠 Smart terminal**
-
-- Full PTY (zsh/bash/fish), session restore via SQLite
-- `>> run this app` → shell command, cached locally
-- Pay for each unique intent **once**
-
-**🤖 AI layer — Bring Your Own Key**
-
-- Chat, code review, commit messages, test generation
-- OpenAI · Anthropic · Gemini · Groq · Ollama (offline)
-- Keys in macOS Keychain · token dashboard · privacy mode
-
-</td>
-</tr>
-</table>
+In progress / planned: bridging the **terminal** to the real PTY, **Source Control** to git, a
+native **file watcher**, then the **AI layer** and **multiplayer**. See the [roadmap](#-roadmap).
 
 ---
 
-## 🏗️ Tech stack
+## 🏗️ How it works
 
-| Layer          | Technology                                                           |
-| -------------- | -------------------------------------------------------------------- |
-| Desktop shell  | **Tauri 2.0** (Rust) — native perf, system WebView                   |
-| Editor core    | **Monaco** (the engine behind VSCode)                                |
-| Frontend       | **React 19 + TypeScript + Vite**                                     |
-| Real-time sync | **Yjs (CRDT)** + y-websocket                                         |
-| Terminal       | **xterm.js** + node-pty                                              |
-| Storage        | **SQLite** (sessions, NL cache), macOS **Keychain** (API keys)       |
-| Git            | **isomorphic-git** + libgit2                                         |
-| AI             | Custom **BYOK** router (OpenAI / Anthropic / Gemini / Groq / Ollama) |
+NexCode embeds VSCode's workbench in the browser via
+[`@codingame/monaco-vscode-api`](https://github.com/CodinGame/monaco-vscode-api), hosted inside a
+Tauri WebView. A Rust backend exposes the real machine to the workbench through Tauri IPC.
+
+```
+┌──────────────────────────── Tauri window (system WebView) ────────────────────────────┐
+│  VSCode workbench  (@codingame/monaco-vscode-api)                                       │
+│  activity bar · explorer · editor · panels · command palette · themes · extensions      │
+│        │  custom service overrides + NexCode branding (workbench/*)                      │
+│        ▼                                                                                 │
+│  TauriFileSystemProvider ──IPC──▶  Rust backend (src-tauri)                              │
+│                                     fs · pty · libgit2 · keychain · LSP bridge           │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+| Layer            | Technology                                                           |
+| ---------------- | -------------------------------------------------------------------- |
+| Desktop shell    | **Tauri 2.0** (Rust) — native perf, system WebView, no Electron      |
+| Workbench        | **VSCode** via `@codingame/monaco-vscode-api` (pinned **33.0.9**)    |
+| Frontend tooling | **TypeScript + Vite**                                                |
+| Filesystem       | Custom `IFileSystemProvider` ↔ Rust commands (real disk)             |
+| Terminal         | **portable-pty** (Rust) — _bridge in progress_                       |
+| Git              | **libgit2** via `git2` (Rust) — _bridge in progress_                 |
+| AI _(planned)_   | Custom **BYOK** router (OpenAI / Anthropic / Gemini / Groq / Ollama) |
 
 ---
 
@@ -106,18 +94,21 @@ shell and adds the things developers actually keep asking for.
 ```
 nexcode/
 ├── apps/
-│   ├── desktop/        # Tauri 2.0 + React + TS + Vite — the IDE   (active)
-│   │   ├── src/        #   editor · terminal · multiplayer · git
-│   │   │               #   ai · merge-resolver · settings · lib
-│   │   └── src-tauri/  #   Rust backend (commands, FS, keychain)
-│   └── web/            # Next.js landing page                      (reserved)
+│   ├── desktop/            # the IDE
+│   │   ├── src/workbench/  #   VSCode bootstrap, services, branding, FS bridge
+│   │   └── src-tauri/      #   Rust backend (fs · pty · git · lsp)
+│   └── web/                # Next.js landing page                  (reserved)
 ├── packages/
-│   └── sync-server/    # y-websocket multiplayer server + Docker   (reserved)
-├── assets/             # Brand assets (logo, wordmarks)
-├── docs/               # PRD + developer notes
-├── scripts/            # Build / notarize / release
-└── tests/              # Cross-app e2e (Playwright)
+│   └── sync-server/        # y-websocket multiplayer server        (reserved)
+├── assets/                 # Brand assets (logo, wordmarks)
+├── docs/                   # PRD + developer notes
+├── scripts/                # Build / notarize / release
+└── tests/                  # Cross-app e2e
 ```
+
+> Note: the original Tauri-native UI (a hand-built file tree, terminal, git, and LSP client) lives
+> on `main` and is preserved as a reference. The VSCode-workbench direction is on
+> `feat/vscode-workbench`.
 
 ---
 
@@ -132,15 +123,19 @@ nexcode/
 **Run it**
 
 ```bash
-pnpm install     # install workspace dependencies
-pnpm dev         # launch the desktop app (tauri dev)
+git checkout feat/vscode-workbench   # the current direction
+pnpm install                         # install workspace dependencies
+pnpm dev                             # launch the desktop app (tauri dev)
 ```
+
+> First launch is slow (1–3 min): Vite pre-bundles the VSCode workbench modules once. Later starts
+> are fast. Then hit **Open Folder…** on the start screen (or ⌘O) to open a real project.
 
 **Other scripts**
 
 ```bash
 pnpm build                          # bundle the macOS app (.app / .dmg)
-pnpm -F @nexcode/desktop test       # unit tests (Vitest)
+pnpm -F @nexcode/desktop typecheck  # TypeScript
 pnpm -F @nexcode/desktop lint       # ESLint
 pnpm format                         # Prettier
 ```
@@ -151,28 +146,24 @@ See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the full developer guide.
 
 ## 🗺️ Roadmap
 
-The [PRD](docs/PRD/) defines a 4-phase, 30-week plan:
+| Milestone           | Focus                                                        | Status     |
+| ------------------- | ------------------------------------------------------------ | ---------- |
+| **Workbench shell** | Real VSCode workbench in Tauri, branding, Nova theme         | ✅ done    |
+| **Real filesystem** | Open folders, edit/save on disk, Material icons              | ✅ done    |
+| **Terminal bridge** | Wire VSCode's terminal to the real PTY (portable-pty)        | 🚧 next    |
+| **Git bridge**      | Wire VSCode's Source Control to libgit2; file watcher        | ⬜ planned |
+| **AI layer (BYOK)** | Chat, review, commit messages, test gen — your own keys      | ⬜ planned |
+| **Multiplayer**     | Yjs CRDT co-editing, presence, self-hosted sync              | ⬜ planned |
+| **Polish & launch** | Perf, notarization, auto-update, Homebrew Cask, landing page | ⬜ planned |
 
-| Phase                        | Focus                                                        | Status             |
-| ---------------------------- | ------------------------------------------------------------ | ------------------ |
-| **0 · Foundation bootstrap** | Monorepo, Tauri+Monaco shell, app icon, module scaffold      | ✅ **done**        |
-| **1 · Foundation**           | File tree, Cmd+P, tabs/save, terminal, git, LSP ✓ → settings | 🚧 **in progress** |
-| **2 · Unique features**      | Multiplayer, merge resolver, smart terminal, PR review       | ⬜ planned         |
-| **3 · AI layer**             | BYOK router, chat, reviewer, test-gen, token dashboard       | ⬜ planned         |
-| **4 · Polish & launch**      | `.vsix` compat, perf, notarization, Homebrew Cask            | ⬜ planned         |
-
-> **You are here:** Phase 1 — open a folder, browse the **file explorer**, fuzzy-jump to
-> files with **⌘P**, edit across **tabs**, **⌘S** to save, drop into a real **integrated
-> terminal** with <kbd>Ctrl</kbd>+<kbd>`</kbd>, stage/diff/**commit** from the
-> **source-control panel**, and get **LSP** diagnostics, completion & hover (TypeScript
-> bundled; Python/Rust/Go when their server is on PATH). Next up: the settings UI.
+The full product vision lives in the [PRD](docs/PRD/).
 
 ---
 
 ## 🤝 Contributing
 
-This is an early-stage project. Issues and PRs are welcome once the Phase 1 surface lands.
-Please run `pnpm lint`, `pnpm test`, and `pnpm format` before opening a PR.
+Early-stage and moving fast. Issues and PRs welcome. Please run `pnpm typecheck`, `pnpm lint`, and
+`pnpm format` before opening a PR.
 
 ## License
 
