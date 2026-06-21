@@ -87,6 +87,7 @@
   },
   "devDependencies": {
     "@codingame/esbuild-import-meta-url-plugin": "^1.0.3",
+    "@codingame/monaco-vscode-rollup-vsix-plugin": "33.0.9",
     "@eslint/js": "^9.17.0",
     "@tauri-apps/cli": "^2",
     "@types/node": "^22.10.5",

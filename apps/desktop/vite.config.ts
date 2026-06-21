@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import importMetaUrlPlugin from "@codingame/esbuild-import-meta-url-plugin";
+import vsixPlugin from "@codingame/monaco-vscode-rollup-vsix-plugin";
 import { readFileSync } from "node:fs";
 import { fileURLToPath, URL } from "node:url";
 
@@ -35,6 +36,9 @@ export default defineConfig({
     alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
   },
   plugins: [
+    // Lets us `import` a .vsix and have it registered as an extension
+    // (we bundle the Material Icon Theme this way).
+    vsixPlugin(),
     {
       // VSCode ships CSS that must be loaded as strings (injected into the
       // workbench), not as Vite stylesheets.

@@ -2,7 +2,7 @@
 
 export const DEFAULT_CONFIGURATION = JSON.stringify({
   "workbench.colorTheme": "NexCode Nova",
-  "workbench.iconTheme": "vs-seti",
+  "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "none",
   "editor.fontFamily": "'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace",
   "editor.fontSize": 13,
@@ -23,4 +23,7 @@ export const DEFAULT_CONFIGURATION = JSON.stringify({
   "workbench.sideBar.location": "left",
 });
 
-export const DEFAULT_KEYBINDINGS = JSON.stringify([]);
+export const DEFAULT_KEYBINDINGS = JSON.stringify([
+  { key: "cmd+o", command: "nexcode.openFolder" },
+  { key: "ctrl+o", command: "nexcode.openFolder" },
+]);

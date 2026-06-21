@@ -13,6 +13,8 @@ import novaThemeUrl from "./nexcode-nova-theme.json?url";
 import carbonThemeUrl from "./nexcode-carbon-theme.json?url";
 import logoUrl from "@/assets/logo.png";
 import wordmarkUrl from "@/assets/wordmark.png";
+import { getStoredFolder } from "./folderStore";
+import { pickAndOpenFolder } from "./openFolder";
 
 const GRADIENT = "linear-gradient(135deg, #7c5cff 0%, #4aa8ff 50%, #34e1d5 100%)";
 
@@ -107,6 +109,7 @@ document.body.appendChild(drag);
 
 // 5. Branded start screen.
 function mountStartScreen(): void {
+  const openFolder = getStoredFolder();
   const overlay = document.createElement("div");
   overlay.id = "nexcode-splash";
   overlay.innerHTML = `
@@ -138,6 +141,13 @@ function mountStartScreen(): void {
       }
       #nexcode-splash .enter:hover { filter: brightness(1.1); }
       #nexcode-splash .enter:active { transform: translateY(1px); }
+      #nexcode-splash .row { margin-top: 38px; display: flex; gap: 12px; align-items: center; }
+      #nexcode-splash .ghost {
+        cursor: pointer; border: 1px solid #2a2e48; border-radius: 10px; background: transparent;
+        padding: 12px 22px; font-size: 14px; font-weight: 600; color: #bdc2da;
+      }
+      #nexcode-splash .ghost:hover { border-color: #4aa8ff; color: #fff; }
+      #nexcode-splash .folder { margin-top: 16px; color: #6a708a; font-size: 12px; }
       #nexcode-splash .hint { margin-top: 14px; color: #4a4f6a; font-size: 11.5px; }
     </style>
     <img class="wm" src="${wordmarkUrl}" alt="NexCode" />
@@ -147,8 +157,16 @@ function mountStartScreen(): void {
       <span class="chip"><b>⌘P</b> Go to file</span>
       <span class="chip"><b>⌃\`</b> Terminal</span>
     </div>
-    <button class="enter">Enter NexCode</button>
-    <div class="hint">press Enter or Esc</div>
+    <div class="row">
+      ${
+        openFolder
+          ? `<button class="enter" data-act="dismiss">Enter NexCode →</button>`
+          : `<button class="enter" data-act="open">Open Folder…</button>
+             <button class="ghost" data-act="dismiss">Continue without a folder</button>`
+      }
+    </div>
+    ${openFolder ? `<div class="folder">${openFolder}</div>` : ``}
+    <div class="hint">${openFolder ? "press Enter or Esc" : "press Esc to skip"}</div>
   `;
   document.body.appendChild(overlay);
 
@@ -158,12 +176,17 @@ function mountStartScreen(): void {
     window.removeEventListener("keydown", onKey);
   };
   const onKey = (e: KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === "Escape") {
+    if (e.key === "Escape" || (e.key === "Enter" && openFolder)) {
       e.preventDefault();
       dismiss();
     }
   };
-  overlay.querySelector(".enter")!.addEventListener("click", dismiss);
+  overlay.querySelectorAll("[data-act]").forEach((el) => {
+    el.addEventListener("click", () => {
+      if (el.getAttribute("data-act") === "open") void pickAndOpenFolder();
+      else dismiss();
+    });
+  });
   window.addEventListener("keydown", onKey);
 }
 

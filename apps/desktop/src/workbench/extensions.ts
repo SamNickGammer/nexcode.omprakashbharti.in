@@ -30,3 +30,8 @@ import "@codingame/monaco-vscode-xml-default-extension";
 // Language features (run in the worker extension host → real IntelliSense).
 import "@codingame/monaco-vscode-typescript-language-features-default-extension";
 import "@codingame/monaco-vscode-json-language-features-default-extension";
+
+// Bundled third-party extension: Material Icon Theme (set as default in
+// userConfig). The vsix rollup plugin turns this import into a registered
+// extension at build time.
+import "./vsix/material-icon-theme.vsix";

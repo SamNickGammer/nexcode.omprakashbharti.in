@@ -24,6 +24,8 @@ import {
   createIndexedDBProviders,
   registerFileSystemOverlay,
 } from "@codingame/monaco-vscode-files-service-override";
+import { TauriFileSystemProvider } from "./fileSystemProvider";
+import { getStoredFolder } from "./folderStore";
 import getModelServiceOverride from "@codingame/monaco-vscode-model-service-override";
 import getNotificationServiceOverride from "@codingame/monaco-vscode-notifications-service-override";
 import getDialogsServiceOverride from "@codingame/monaco-vscode-dialogs-service-override";
@@ -70,36 +72,45 @@ export const workspaceFile = monaco.Uri.file("/workspace.code-workspace");
 export const userDataProvider = await createIndexedDBProviders();
 
 // Seed an in-memory workspace. (The Tauri-backed on-disk provider replaces this
-// in the next stage so the explorer shows the real filesystem.)
-const fileSystemProvider = new RegisteredFileSystemProvider(false);
+// real one is open). When the user has opened a real folder, we instead bridge
+// the `file:` scheme to their disk through Tauri.
+const storedFolder = getStoredFolder();
 
-fileSystemProvider.registerFile(
-  new RegisteredMemoryFile(
-    vscode.Uri.file("/workspace/WELCOME.md"),
-    `# Welcome to NexCode
+if (storedFolder) {
+  // Real project: VSCode's explorer/editor/search operate on the actual disk.
+  registerFileSystemOverlay(1, new TauriFileSystemProvider());
+} else {
+  // No folder yet: a small in-memory welcome workspace.
+  const fileSystemProvider = new RegisteredFileSystemProvider(false);
+
+  fileSystemProvider.registerFile(
+    new RegisteredMemoryFile(
+      vscode.Uri.file("/workspace/WELCOME.md"),
+      `# Welcome to NexCode
 
 This is the **real VSCode workbench** running inside NexCode's lightweight Tauri shell —
 no Electron.
 
+- **Open a folder** — ⌘O (or the button on the start screen)
 - Command palette: **⌘⇧P**
 - Quick open: **⌘P**
 - Toggle terminal: **⌃\`**
-- Settings: **⌘,**
 
 Open a folder and your NexCode features (multiplayer, BYOK AI, smart terminal, the merge
 resolver) will layer on top of everything VSCode already gives you.
 `,
-  ),
-);
+    ),
+  );
 
-fileSystemProvider.registerFile(
-  new RegisteredMemoryFile(
-    workspaceFile,
-    JSON.stringify(<IStoredWorkspace>{ folders: [{ path: "/workspace" }] }, null, 2),
-  ),
-);
+  fileSystemProvider.registerFile(
+    new RegisteredMemoryFile(
+      workspaceFile,
+      JSON.stringify(<IStoredWorkspace>{ folders: [{ path: "/workspace" }] }, null, 2),
+    ),
+  );
 
-registerFileSystemOverlay(1, fileSystemProvider);
+  registerFileSystemOverlay(1, fileSystemProvider);
+}
 
 // Web workers (Vite resolves these URLs; see vite.config.ts).
 const workers: Partial<Record<string, Worker>> = {
@@ -156,14 +167,16 @@ export const constructOptions: IWorkbenchConstructionOptions = {
       window.open(window.location.href);
       return true;
     },
-    workspace: { workspaceUri: workspaceFile },
+    workspace: storedFolder
+      ? { folderUri: monaco.Uri.file(storedFolder) }
+      : { workspaceUri: workspaceFile },
   },
   developmentOptions: { logLevel: LogLevel.Info },
   configurationDefaults: {
     "window.title": "NexCode${separator}${dirty}${activeEditorShort}",
   },
   defaultLayout: {
-    editors: [{ uri: monaco.Uri.file("/workspace/WELCOME.md"), viewColumn: 1 }],
+    editors: storedFolder ? [] : [{ uri: monaco.Uri.file("/workspace/WELCOME.md"), viewColumn: 1 }],
     views: [],
     force: false,
   },

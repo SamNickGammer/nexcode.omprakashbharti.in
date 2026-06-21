@@ -5,6 +5,7 @@
 // `src/lib/tauri.ts` wrappers (see PRD §3.2 process architecture).
 
 mod fs_commands;
+mod fs_provider;
 mod git_commands;
 mod lsp;
 mod terminal;
@@ -33,6 +34,13 @@ pub fn run() {
             lsp::lsp_start,
             lsp::lsp_send,
             lsp::lsp_stop,
+            fs_provider::fsp_stat,
+            fs_provider::fsp_readdir,
+            fs_provider::fsp_read,
+            fs_provider::fsp_write,
+            fs_provider::fsp_mkdir,
+            fs_provider::fsp_delete,
+            fs_provider::fsp_rename,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
